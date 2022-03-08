@@ -15,7 +15,8 @@ const Input = (props) => {
 const Inputstyle = styled.TextInput`
     width: 100%;
     border: 1px black;
-    color: black;
+    color: #7f8c8d;
+    background-color: white;
     margin-top: 10px;
     border-radius: 10px;
     padding: 10px;

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import styled from "styled-components"
 import {
@@ -12,6 +12,8 @@ import {
     Button,
     TextInput,
     Image,
+    KeyboardAvoidingView,
+    TouchableOpacity,
 } from "react-native"
 import axios from "axios"
 import Input from "../../components/input"
@@ -23,6 +25,7 @@ const Login = ({ navigation }) => {
 
     const [userEror, setUserEror] = useState(false)
     const [passwordEror, setPasswordEror] = useState(false)
+
     const Connexion = () => {
         if (user.email.length < 3) {
             AsyncStorage.removeItem("token")
@@ -41,7 +44,6 @@ const Login = ({ navigation }) => {
                     password: user.password,
                 })
                 .then(function (res) {
-                    setMessage(false)
                     res.headers["x-access-token"]
                         ? (AsyncStorage.setItem("token", res.headers["x-access-token"]),
                           navigation.navigate("Characters"))
@@ -75,14 +77,22 @@ const Login = ({ navigation }) => {
         <>
             <Div>
                 <Img source={Marvel_Logo} />
-                <Div>
+
+                <Div2>
+                    <H1 size="30px" color="white" weight="bold" bottom="0px">
+                        Login
+                    </H1>
                     <Input
                         secu={false}
                         placeholder="Email"
                         onChangeText={(email) => setUser({ ...user, email })}
                         name="email"
                     />
-                    {userEror ? <H1>Le UserName doit contenir au minimum 3 caractères</H1> : null}
+                    {userEror ? (
+                        <H1 size="10px" color="#f4d03f" weight="normal" bottom="10px">
+                            Le UserName doit contenir au minimum 3 caractères
+                        </H1>
+                    ) : null}
                     <Input
                         secu={true}
                         placeholder="Password"
@@ -90,32 +100,65 @@ const Login = ({ navigation }) => {
                         name="password"
                     />
                     {passwordEror ? (
-                        <H1>NB : Le Mot de Passe doit contenir au minimum 8 caractères</H1>
+                        <H1 size="10px" color="#f4d03f" weight="normal" bottom="10px">
+                            NB : Le Mot de Passe doit contenir au minimum 8 caractères
+                        </H1>
                     ) : null}
-                    <Button title="Connexion" onPress={() => Connexion()} />
+
+                    <Btn onPress={() => Connexion()}>
+                        <H1 size="20px" color="white" weight="bold" bottom="0px">
+                            Connexion
+                        </H1>
+                    </Btn>
+
                     {/* <Button title="Afficher le token" onPress={() => get()} /> */}
-                </Div>
+                </Div2>
             </Div>
         </>
     )
 }
 
 const Div = styled.View`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    margin-bottom: 10px;
-    border: 1px black;
-    color: black;
-    border-radius: 10px;
+    height: 100%;
+    background-color: #ec7063;
     padding: 10px;
+`
+const Div2 = styled.View`
+    background-color: #e74c3c;
+    width: 100%;
+    height: 340px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    margin-top: 50px;
+    justify-content: space-around;
 `
 const Img = styled.Image`
-    width: 200px;
-    height: 70px;
+    width: 250px;
+    height: 90px;
+    border-radius: 20px;
+    margin-top: 50px;
 `
 const H1 = styled.Text`
-    color: red;
-    margin-bottom: 10px;
+    font-size: ${(props) => props.size};
+    color: ${(props) => props.color};
+    font-weight: ${(props) => props.weight};
+    margin-bottom: ${(props) => props.bottom};
     padding: 10px;
+`
+const Btn = styled.TouchableOpacity`
+    display: flex;
+    align-items: center;
+    background-color: #cb4335;
+    border-radius: 20px;
+    width: 150px;
+    height: 50px;
 `
 
 export default Login

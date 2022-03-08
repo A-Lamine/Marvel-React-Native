@@ -25,17 +25,29 @@ const App = () => {
 
     return (
         <NavigationContainer>
-            {/*     <SafeAreaView style={backgroundStyle}>
-             */}
-            {/*       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-             */}
+            {/*   <SafeAreaView style={backgroundStyle}> */}
+            <StatusBar
+                barStyle={isDarkMode ? "light-content" : "dark-content"}
+                backgroundColor="red"
+            />
             <Stack.Navigator>
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="Characters" component={Characters} />
+                <Stack.Screen
+                    name="Login"
+                    component={Login}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="Characters"
+                    component={Characters}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
                 <Stack.Screen name="Details" component={Details} />
             </Stack.Navigator>
-
-            {/*  </SafeAreaView> */}
+            {/* </SafeAreaView> */}
         </NavigationContainer>
     )
 }
