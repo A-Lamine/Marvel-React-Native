@@ -28,7 +28,11 @@ function Index({ route }) {
         })
     }, [])
 
-    return <DetailsCard item={data} />
+    return (
+        <>
+            <DetailsCard item={data} />
+        </>
+    )
 }
 
 export default Index

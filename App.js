@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext, useEffect } from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import {
@@ -10,45 +10,32 @@ import {
     useColorScheme,
     View,
 } from "react-native"
-
+import StackNavigator from "./src/config/utils/StackNavigator"
 import { Colors } from "react-native/Libraries/NewAppScreen"
-import Login from "./src/screens/login"
-import Characters from "./src/screens/characters"
-import Details from "./src/screens/details"
+import Auth, { AuthProvider } from "./src/config/contexts/auth"
+import { FavProvider } from "./src/config/contexts/fav"
+
 const App = () => {
     const isDarkMode = useColorScheme() === "dark"
 
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     }
-    const Stack = createNativeStackNavigator()
 
     return (
-        <NavigationContainer>
-            {/*   <SafeAreaView style={backgroundStyle}> */}
-            <StatusBar
-                barStyle={isDarkMode ? "light-content" : "dark-content"}
-                backgroundColor="red"
-            />
-            <Stack.Navigator>
-                <Stack.Screen
-                    name="Login"
-                    component={Login}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name="Characters"
-                    component={Characters}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen name="Details" component={Details} />
-            </Stack.Navigator>
-            {/* </SafeAreaView> */}
-        </NavigationContainer>
+        <AuthProvider>
+            <FavProvider>
+                <NavigationContainer>
+                    {/*   <SafeAreaView style={backgroundStyle}> */}
+                    <StatusBar
+                        barStyle={isDarkMode ? "light-content" : "dark-content"}
+                        backgroundColor="#ec7063"
+                    />
+                    <StackNavigator />
+                    {/* </SafeAreaView> */}
+                </NavigationContainer>
+            </FavProvider>
+        </AuthProvider>
     )
 }
 

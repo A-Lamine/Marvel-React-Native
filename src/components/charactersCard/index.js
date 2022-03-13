@@ -3,7 +3,7 @@ import styled from "styled-components"
 function Index({ item: { name, thumbnail } }) {
     return (
         <Div>
-            <Img source={{ uri: thumbnail.path + "." + thumbnail.extension }} />
+            <Img source={{ uri: `${thumbnail?.path}.${thumbnail?.extension}` }} />
             <H1>{name}</H1>
         </Div>
     )

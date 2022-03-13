@@ -1,54 +1,27 @@
-import React, { useState, useEffect } from "react"
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import React, { useState, useContext } from "react"
 import styled from "styled-components"
-import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    useColorScheme,
-    View,
-    Button,
-    TextInput,
-    Image,
-    KeyboardAvoidingView,
-    TouchableOpacity,
-} from "react-native"
-import axios from "axios"
 import Input from "../../components/input"
 import Marvel_Logo from "../../../public/Marvel_Logo.png"
-import { API_LOGIN } from "../../config/env"
+import Auth from "../../config/contexts/auth"
 
-const Login = ({ navigation }) => {
+const Login = () => {
     const [user, setUser] = useState({ email: "", password: "" })
+    const { login } = useContext(Auth)
 
     const [userEror, setUserEror] = useState(false)
     const [passwordEror, setPasswordEror] = useState(false)
 
     const Connexion = () => {
         if (user.email.length < 3) {
-            AsyncStorage.removeItem("token")
             setPasswordEror(false)
             setUserEror(true)
             alert("Le UserName doit contenir au minimum 3 caractères")
         } else if (user.password.length < 8) {
-            AsyncStorage.removeItem("token")
             setPasswordEror(true)
             setUserEror(false)
             alert("Le Mot de Passe doit contenir au minimum 8 caractères")
         } else {
-            axios
-                .post(API_LOGIN, {
-                    username: user.email,
-                    password: user.password,
-                })
-                .then(function (res) {
-                    res.headers["x-access-token"]
-                        ? (AsyncStorage.setItem("token", res.headers["x-access-token"]),
-                          navigation.navigate("Characters"))
-                        : AsyncStorage.removeItem("token")
-                })
+            login(user.email, user.password)
         }
     }
 
@@ -77,7 +50,6 @@ const Login = ({ navigation }) => {
         <>
             <Div>
                 <Img source={Marvel_Logo} />
-
                 <Div2>
                     <H1 size="30px" color="white" weight="bold" bottom="0px">
                         Login
